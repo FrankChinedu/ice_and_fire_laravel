@@ -12,7 +12,14 @@ class BookRepository implements BookRepositoryInterface {
   use TransformTrait;
   
   public function getAllBooks() {
-    return ['new'];
+
+    try {
+      $books = Book::all(); // if we expeect so much request we would paginate it
+
+      return $this->transformResponse(200, 'success', 'books data', $books);
+    } catch (\Throwable $th) {
+      return $this->transformResponse(500, 'error', 'an error occured', $th);
+    }
   }
 
   public function getExternalBooks($url) {
@@ -42,18 +49,13 @@ class BookRepository implements BookRepositoryInterface {
   public function create($request){
 
     try {
-      $authorsArr = [];
       
-      $authors = explode(',', $request->input('authors'));
-
-      foreach ($authors as $key => $value) {
-        array_push($authorsArr, $value);
-      }
+      $author = $this->changeAuthorStringToArray($request->input('authors'));
 
       $book = new Book();
       $book->name = $request->input('name');
       $book->isbn = $request->input('isbn');
-      $book->authors = json_encode($authorsArr);
+      $book->authors = $author;
       $book->number_of_pages = $request->input('number_of_pages');
       $book->publisher = $request->input('publisher');
       $book->release_date = $request->input('release_date');
@@ -63,19 +65,59 @@ class BookRepository implements BookRepositoryInterface {
       return $this->transformResponse(201, 'success', 'book created', $book);
 
     } catch (\Throwable $th) {
-      return $this->transformResponse(400, 'error', 'an error occured', $th);
+      return $this->transformResponse(500, 'error', 'an error occured', $th);
     }
   }
 
   public function update($request, $id){
+    try {
+      $book = Book::find($id);
+
+      if(!$book) throw new \Exception("Book does not exist", 1);
+      
+      $book->update([
+        'name' => $request->input('name') ? $request->input('name') : $book->name,
+        'authors' => $request->input('authors') ? $this->changeAuthorStringToArray($request->input('authors')) : $book->authors, 
+        'number_of_pages' => $request->input('number_of_pages') ? $request->input('number_of_pages') : $book->number_of_pages, 
+        'publisher' => $request->input('publisher') ? $request->input('publisher') : $book->publisher, 
+        'release_date' => $request->input('release_date') ? $request->input('release_date') : $book->release_date
+      ]);
+
+      return $this->transformResponse(200, 'success', 'book updated', $book);
+
+    } catch (\Throwable $th) {
+      return $this->transformResponse(404, 'error', 'id does not exist', $th);
+    }
 
   }
 
   public function show($id){
 
+    try {
+      $book = Book::find($id);
+      $book = $book ? $book : [];
+
+      return $this->transformResponse(200, 'success', 'book found', $book);
+    } catch (\Throwable $th) {
+      return $this->transformResponse(404, 'error', 'book notfound', $th);
+    }
   }
 
   public function destroy($id){
+    Book::find($id)->delete();
 
+    return $this->transformResponse(204, 'success', 'book found', []);
+  }
+
+  private function changeAuthorStringToArray($str) {
+    $authorsArr = [];
+
+    $authors = explode(',', $str);
+
+    foreach ($authors as $key => $value) {
+      array_push($authorsArr, $value);
+    }
+
+    return json_encode($authorsArr);
   }
 }
