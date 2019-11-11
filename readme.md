@@ -20,7 +20,7 @@ Do the following
 3. Create a local `.env` file using the `.env.example` file on the root folder or by typing `cp .env.example .env` on the command line set env variables.
 4. Type `composer install` to install dependencies
 5. Type `php artisan serve` to start development server 
-6. To test app run `phpunit` or `vendor/bin/phpunit`
+6. To test app create a `.env.testing` file and put in testing variables then  run `phpunit` or `vendor/bin/phpunit`
 
 ## Routes (api - end points)
 
