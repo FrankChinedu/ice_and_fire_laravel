@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\BookRepositoryInterface;
+use App\Http\Requests\BookStoreRequest;
 
 class BookController extends Controller
 {
@@ -14,8 +15,10 @@ class BookController extends Controller
         $this->book = $book;   
     }
 
-    public function create(Request $request){
-
+    public function create(BookStoreRequest $request){
+        
+        $res = $this->book->create($request);
+        return response()->json($res, $res['status_code']);
     }
 
     public function getAllBooks() {
