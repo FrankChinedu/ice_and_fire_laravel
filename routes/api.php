@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/external-books', 'ExternalBookController@getBooks');
+
+Route::prefix('v1')->group(function(){
+    Route::post('/books', 'BookController@create');
+    Route::get('/books', 'BookController@getAllBooks');
+    Route::get('/books/{id}', 'BookController@show');
+    Route::patch('/books/{id}', 'BookController@update');
+    Route::delete('/books/{id}', 'BookController@delete');
+});
