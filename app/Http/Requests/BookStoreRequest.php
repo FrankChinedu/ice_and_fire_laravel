@@ -33,6 +33,7 @@ class BookStoreRequest extends FormRequest
             'authors' => 'required|min:2',
             'number_of_pages' => 'required|numeric',
             'publisher' =>  'required|string|min:2',
+            'country' =>  'required|string|min:2',
             'release_date' => 'required|date'
         ];
     }
@@ -52,6 +53,8 @@ class BookStoreRequest extends FormRequest
             'number_of_pages.numeric' => 'number of pages field must be a number',
             'publisher.required' => 'publisher field is required',
             'publisher.string' => 'publisher must be a string',
+            'country.required' => 'publisher field is required',
+            'country.string' => 'publisher must be a string',
             'release_date.required' => 'release_date field is required',
             'release_date.date' => 'release_date must be date type is required',
         ];

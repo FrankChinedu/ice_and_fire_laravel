@@ -22,8 +22,8 @@ class BookController extends Controller
         return response()->json($res, $res['status_code']);
     }
 
-    public function getAllBooks() {
-        $res = $this->book->getAllBooks();
+    public function getAllBooks(Request $request) {
+        $res = $this->book->getAllBooks($request);
         return response()->json($res, $res['status_code']);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\BookRepositoryInterface;
+use App\Http\Services\ExternalBookService;
 
 class ExternalBookController extends Controller
 {
@@ -19,7 +20,7 @@ class ExternalBookController extends Controller
         $name = $request['name'] ? "?name=".$request['name'] : '';
         $url = $this->url."$name";
 
-        $res = $this->book->getExternalBooks($url);
+        $res = (new ExternalBookService())->getExternalBooks($url);
         return response()->json($res);
     }
 }

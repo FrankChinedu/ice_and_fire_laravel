@@ -34,11 +34,13 @@ using the payload
     "authors": "lever cool, manny moo",
     "number_of_pages": 200,
     "publisher": "new book haven",
+    "country": "brazil",
     "release_date": "2009-12-01" 
 }
 ```
 
 - GET  localhost:PORT/api/v1/books - get all books
+- GET  localhost:PORT/api/v1/books?search=name - search by country, publisher, release date and name
 - GET  localhost:PORT/api/v1/books/:id - get a book by its ID
 - PATCH  localhost:PORT/api/v1/books/:id - update a book passing update parameters
 - DELETE  localhost:PORT/api/v1/books/:id - delete a book. 

@@ -30,9 +30,10 @@ class BookUpdateRequest extends FormRequest
         return [
             'name' => 'string|min:2',
             'isbn' => 'unique:books|min:8',
-            'authors' => 'min:2',
+            'authors' => 'string|min:2',
             'number_of_pages' => 'numeric',
             'publisher' =>  'string|min:2',
+            'country' =>  'string|min:2',
             'release_date' => 'date'
         ];
     }
@@ -45,8 +46,10 @@ class BookUpdateRequest extends FormRequest
             'isbn.unique' => 'isbn must be unique',
             'isbn.min' => 'isbn must be more than 8 characters',
             'authors.min' => 'authors must be a miniumu of two string',
+            'country.min' => 'authors must be a miniumu of two string',
             'number_of_pages.numeric' => 'number of pages field must be a number',
             'publisher.string' => 'publisher must be a string',
+            'country.string' => 'publisher must be a string',
             'release_date.date' => 'release_date must be date type is required',
         ];
     }

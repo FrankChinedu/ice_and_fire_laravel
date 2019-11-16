@@ -22,6 +22,7 @@ class BookTest extends TestCase
             "authors" => "lever cool, manny moo",
             "number_of_pages" => 234,
             "publisher" => "new book haven",
+            "country" => "congo",
             "release_date" => "2009-12-01"
         ];
         $response = $this->json('POST', '/api/v1/books', $data);
@@ -88,6 +89,7 @@ class BookTest extends TestCase
             "isbn" => 1234567849,
             "authors" => "lever cool, manny moo",
             "number_of_pages" => 234,
+            "country" => "mali",
             "publisher" => "new book haven",
             "release_date" => "2009-12-01"
         ];
@@ -106,13 +108,13 @@ class BookTest extends TestCase
         ]);
     }
 
-    public function testShouldReturnDataIfBookDoesNotExist(){
+    public function testShouldReturn404IfBookDoesNotExist(){
        
         $book_id = 14637673;
 
         $response = $this->json('get', "/api/v1/books/$book_id");
 
-        $response->assertStatus(200);
+        $response->assertStatus(404);
         $response->assertJsonStructure([
             "status_code",
             "status",
@@ -127,6 +129,7 @@ class BookTest extends TestCase
             "isbn" => 1234567849,
             "authors" => "lever cool, manny moo",
             "number_of_pages" => 234,
+            "country" => "mali",
             "publisher" => "new book haven",
             "release_date" => "2009-12-01"
         ];
@@ -155,6 +158,7 @@ class BookTest extends TestCase
             "isbn" => 1234567849,
             "authors" => "lever cool, manny moo",
             "number_of_pages" => 234,
+            "country" => "mali",
             "publisher" => "new book haven",
             "release_date" => "2009-12-01"
         ];
